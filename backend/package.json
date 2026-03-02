@@ -1,0 +1,14 @@
+{
+  "name": "zen-readify-backend",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "services/*"
+  ],
+  "scripts": {
+    "start:book": "node services/book-service/server.js",
+    "start:category": "node services/category-service/server.js",
+    "start:search": "node services/search-service/server.js",
+    "start:user": "node services/user-service/server.js"
+  }
+}

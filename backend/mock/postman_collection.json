@@ -1,0 +1,199 @@
+{
+  "info": {
+    "name": "Zen Readify API",
+    "_postman_id": "12345",
+    "description": "All backend microservices via API Gateway",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Books",
+      "item": [
+        {
+          "name": "Create Book - Best Seller",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Atomic Habits\",\n  \"author\": \"James Clear\",\n  \"genre\": \"Self-Help\",\n  \"category\": \"Best Seller\",\n  \"description\": \"A guide to building good habits and breaking bad ones. Discover the tiny changes that deliver remarkable results.\",\n  \"reviews\": [\n    \"Life-changing book! Highly recommended.\",\n    \"Clear and practical advice with real examples.\",\n    \"Best book I've read this year.\"\n  ],\n  \"imageUrl\": \"https://example.com/atomic-habits.jpg\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:4001/api/books",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "4001",
+              "path": ["api", "books"]
+            }
+          }
+        },
+        {
+          "name": "Create Book - New Arrival",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"The Midnight Library\",\n  \"author\": \"Matt Haig\",\n  \"genre\": \"Fantasy\",\n  \"category\": \"New Arrival\",\n  \"description\": \"A novel exploring parallel lives and the choices that define our existence.\",\n  \"reviews\": [\n    \"A magical and profound read.\",\n    \"Thought-provoking and inspiring.\"\n  ],\n  \"imageUrl\": \"https://example.com/midnight-library.jpg\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:4001/api/books",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "4001",
+              "path": ["api", "books"]
+            }
+          }
+        },
+        {
+          "name": "Create Book - Editor's Pick",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Educated\",\n  \"author\": \"Tara Westover\",\n  \"genre\": \"Memoir\",\n  \"category\": \"Editor's Pick\",\n  \"description\": \"A powerful memoir about a woman who leaves her survivalist family to pursue education.\",\n  \"reviews\": [\n    \"Absolutely compelling and inspiring.\",\n    \"A must-read memoir.\",\n    \"Powerful story of resilience and education.\",\n    \"Changed my perspective on life.\"\n  ],\n  \"imageUrl\": \"https://example.com/educated.jpg\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:4001/api/books",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "4001",
+              "path": ["api", "books"]
+            }
+          }
+        },
+        {
+          "name": "Get All Books",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:4000/api/books",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "4000",
+              "path": ["api", "books"]
+            }
+          }
+        },
+        {
+          "name": "Get Book by ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:4000/api/books/:id",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "4000",
+              "path": ["api", "books", ":id"]
+            }
+          }
+        },
+        {
+          "name": "Update Book",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Atomic Habits Updated\",\n  \"author\": \"James Clear\",\n  \"genre\": \"Self-Help\",\n  \"category\": \"Best Seller\",\n  \"description\": \"Revised edition with new insights.\",\n  \"reviews\": [\n    \"Even better in the updated version!\",\n    \"New examples are excellent.\",\n    \"Worth reading again.\"\n  ],\n  \"imageUrl\": \"https://example.com/atomic-habits-v2.jpg\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:4001/api/books/:id",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "4001",
+              "path": ["api", "books", ":id"]
+            }
+          }
+        },
+        {
+          "name": "Delete Book",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "http://localhost:4001/api/books/:id",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "4001",
+              "path": ["api", "books", ":id"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Categories",
+      "item": [
+        {
+          "name": "Create Category",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Self Help\",\n  \"description\": \"Motivational books for personal development\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:4000/api/categories",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "4000",
+              "path": ["api", "categories"]
+            }
+          }
+        },
+        {
+          "name": "Get All Categories",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:4000/api/categories",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "4000",
+              "path": ["api", "categories"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Create User",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Admin\",\n  \"email\": \"admin@test.com\",\n  \"role\": \"admin\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:4000/api/users",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "4000",
+              "path": ["api", "users"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Search",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:4000/api/search?query=atomic",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4000",
+          "path": ["api", "search"],
+          "query": [{ "key": "query", "value": "atomic" }]
+        }
+      }
+    }
+  ]
+}
