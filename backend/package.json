@@ -10,5 +10,8 @@
     "start:category": "node services/category-service/server.js",
     "start:search": "node services/search-service/server.js",
     "start:user": "node services/user-service/server.js"
+  },
+  "dependencies": {
+    "http-proxy-middleware": "^3.0.5"
   }
 }

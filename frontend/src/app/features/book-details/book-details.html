@@ -1,1 +1,46 @@
-<p>book-details works!</p>
+@if (book()) {
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-4">
+                <img [src]="book().imageUrl" class="img-fluid rounded shadow" />
+            </div>
+
+            <div class="col-md-8">
+                <h2>{{ book().title }}</h2>
+                <p class="text-muted">By {{ book().author }}</p>
+                <p>⭐ {{ book().averageRating }}</p>
+                <p>{{ book().description }}</p>
+            </div>
+        </div>
+
+        <hr class="my-4" />
+
+        <h4>Reviews</h4>
+
+        @for (review of reviews(); track review.id) {
+            <div class="mb-3">
+                <strong>{{ review.reviewerName }}</strong> ⭐ {{ review.rating }}
+                <p>{{ review.comment }}</p>
+            </div>
+        }
+
+        <div class="card p-3 mt-4">
+            <h5>Add Review</h5>
+
+            <input class="form-control mb-2" [(ngModel)]="newReview.reviewerName" placeholder="Your Name" />
+            <select class="form-select mb-2" [(ngModel)]="newReview.rating">
+                @for ( n of [1,2,3,4,5]; track n) {
+                    <option [value]="n">
+                        {{ n }}
+                    </option>
+                }
+            </select>
+
+            <textarea class="form-control mb-2" [(ngModel)]="newReview.comment" placeholder="Comment"> </textarea>
+
+            <button class="btn btn-primary" (click)="submitReview()">
+                Submit Review
+            </button>
+        </div>
+    </div>
+}

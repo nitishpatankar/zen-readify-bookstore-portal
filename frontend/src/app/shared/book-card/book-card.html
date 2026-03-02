@@ -1,1 +1,15 @@
-<p>book-card works!</p>
+<div class="card book-card h-100">
+  <img [src]="book().imageUrl" class="card-img-top" />
+  <div class="card-body d-flex flex-column">
+    <h6>{{ book().title }}</h6>
+    <small class="text-muted">{{ book().author }}</small>
+
+    <div class="mt-auto">
+      <p class="mb-2">⭐ {{ book().averageRating || 0 }}</p>
+      <button class="btn btn-primary btn-sm w-100"
+              (click)="openDetails()">
+        View Details
+      </button>
+    </div>
+  </div>
+</div>

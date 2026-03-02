@@ -10,6 +10,7 @@ const { bookValidationSchema } = require('../validation/bookSchema');
 router.get('/', async (req, res, next) => {
   try {
     const books = await Book.find();
+    console.log('Books retrieved:', books.length);
     res.json(books);
   } catch (err) {
     next(err);
