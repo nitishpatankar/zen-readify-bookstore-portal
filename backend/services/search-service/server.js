@@ -63,50 +63,25 @@ GET /api/search?query=atomic&genre=Self Help&page=1&limit=5&sort=rating
 */
 
 app.get('/api/search', async (req, res) => {
+  console.log('Search query:', req.query);
   try {
-    const {
-      query,
-      genre,
-      category,
-      page = 1,
-      limit = 10,
-      sort
-    } = req.query;
+    const { query, genre } = req.query;
 
     const filter = {};
 
-    // Text search
-    if (query) {
+    // 🔎 Text search
+    if (query && query.trim() !== '') {
       filter.$text = { $search: query };
     }
 
-    // Filters
-    if (genre) filter.genre = genre;
-    if (category) filter.category = category;
-
-    let dbQuery = Book.find(filter);
-
-    // Sorting
-    if (sort === 'rating') {
-      dbQuery = dbQuery.sort({ averageRating: -1 });
+    // 🎯 Genre filter (case-insensitive)
+    if (genre && genre.trim() !== '') {
+      filter.genre = { $regex: genre, $options: 'i' };
     }
 
-    if (sort === 'newest') {
-      dbQuery = dbQuery.sort({ createdAt: -1 });
-    }
+    const results = await Book.find(filter).sort({ createdAt: -1 });
 
-    const total = await Book.countDocuments(filter);
-
-    const results = await dbQuery
-      .skip((page - 1) * limit)
-      .limit(Number(limit));
-
-    res.json({
-      total,
-      page: Number(page),
-      pages: Math.ceil(total / limit),
-      data: results
-    });
+    res.json(results);
 
   } catch (err) {
     console.error(err);

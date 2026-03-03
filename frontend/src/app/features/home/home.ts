@@ -1,47 +1,70 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { BookService } from '../../core/services/book.service';
 import { BookCard } from '../../shared/book-card/book-card';
-import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 
 @Component({
+  standalone: true,
   selector: 'app-home',
-  imports: [ CommonModule, FormsModule, BookCard ],
+  imports: [CommonModule, ReactiveFormsModule, BookCard],
   templateUrl: './home.html',
-  styleUrl: './home.scss',
+  styleUrls: ['./home.scss']
 })
-export class Home {
+export class Home implements OnInit {
+
+  private fb = inject(FormBuilder);
   private bookService = inject(BookService);
 
   books = signal<any[]>([]);
-  searchText = signal<string>('');
-  selectedGenre = signal<string>('');
 
-  // books = signal<any[]>([]);
-  totalPages = signal(1);
-  currentPage = signal(1);
-  limit = 8;
+  searchForm = this.fb.group({
+    query: [''],
+    genre: ['']
+  });
 
-  loading = signal(false);
+  genres = [
+    'Self Help',
+    'Fiction',
+    'Business',
+    'Technology',
+    'Biography'
+  ];
 
   ngOnInit() {
-    this.loadBooks();
+
+    // Load all books initially
+    this.loadAllBooks();
+
+    // 🔥 Debounced search
+    this.searchForm.valueChanges
+      .pipe(
+        debounceTime(400),
+        distinctUntilChanged()
+      )
+      .subscribe(value => {
+        this.performSearch(value.query ?? '', value.genre ?? '');
+      });
   }
 
-  loadBooks() {
-    this.bookService.getAll().subscribe(res => {
-      this.books.set(res.data || res);
+  loadAllBooks() {
+    this.bookService.getAll().subscribe(data => {
+      this.books.set(data);
     });
   }
 
-  search() {
-    this.bookService
-      .getAll({
-        q: this.searchText(),
-        genre: this.selectedGenre()
-      })
-      .subscribe(res => {
-        this.books.set(res.data || res);
+  performSearch(query: string, genre: string) {
+
+    // If no filter → load all
+    if (!query && !genre) {
+      this.loadAllBooks();
+      return;
+    }
+
+    this.bookService.searchBooks(query, genre)
+      .subscribe(data => {
+        this.books.set(data);
       });
   }
 }

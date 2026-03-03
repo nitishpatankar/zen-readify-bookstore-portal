@@ -1,4 +1,4 @@
-<div class="container mt-4">
+<!-- <div class="container mt-4">
 
   <div class="search-section p-4 mb-4 rounded shadow-sm bg-white">
     <div class="row g-3">
@@ -6,7 +6,8 @@
         <input type="text"
                class="form-control"
                placeholder="Search by title or author"
-               [(ngModel)]="searchText" />
+               [value]="searchText()"
+               (input)="onSearchInputChange($event.target.value)" />
       </div>
       <div class="col-md-2">
         <button class="btn btn-success w-100"
@@ -19,17 +20,20 @@
     <div class="mt-3">
       <label class="me-3">
         <input type="radio" name="genre"
-               (change)="selectedGenre.set('Fiction')" />
+               [checked]="selectedGenre() === 'Fiction'"
+               (change)="onGenreChange('Fiction')" />
         Fiction
       </label>
       <label class="me-3">
         <input type="radio" name="genre"
-               (change)="selectedGenre.set('Non-Fiction')" />
+               [checked]="selectedGenre() === 'Non-Fiction'"
+               (change)="onGenreChange('Non-Fiction')" />
         Non-Fiction
       </label>
       <label>
         <input type="radio" name="genre"
-               (change)="selectedGenre.set('')" />
+               [checked]="selectedGenre() === ''"
+               (change)="onGenreChange('')" />
         All
       </label>
     </div>
@@ -41,6 +45,58 @@
       <app-book-card [book]="book"></app-book-card>
     </div>
   }
+  </div>
+
+</div> -->
+
+<div class="container">
+
+  <h2 class="title">Search Books</h2>
+
+  <!-- 🔎 SEARCH FORM -->
+  <form [formGroup]="searchForm" class="search-box">
+
+    <input
+      type="text"
+      formControlName="query"
+      placeholder="Search by title, author..."
+      class="search-input"
+    />
+
+    <div class="genre-group">
+      <label *ngFor="let g of genres">
+        <input
+          type="radio"
+          [value]="g"
+          formControlName="genre"
+        />
+        {{ g }}
+      </label>
+
+      <label>
+        <input
+          type="radio"
+          value=""
+          formControlName="genre"
+        />
+        All
+      </label>
+    </div>
+
+  </form>
+
+  <hr>
+
+  <!-- 📚 BOOK GRID -->
+  <div class="grid">
+    <app-book-card
+      *ngFor="let book of books()"
+      [book]="book">
+    </app-book-card>
+  </div>
+
+  <div *ngIf="books().length === 0" class="no-results">
+    No books found.
   </div>
 
 </div>
