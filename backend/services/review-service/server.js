@@ -6,19 +6,8 @@ require('dotenv').config({
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
-const mongoose = require('mongoose');
 const errorHandler = require('../../shared/middleware/errorHandler');
 const connectDB = require('../../shared/config/db');
-
-// mongoose
-//   .connect(process.env.MONGO_REVIEWS, {
-//     serverSelectionTimeoutMS: 5000
-//   })
-//   .then(() => console.log('Review Service Mongo Connected'))
-//   .catch((err) => {
-//     console.error(err.message);
-//     process.exit(1);
-//   });
 
 connectDB(process.env.MONGO_REVIEWS);
 

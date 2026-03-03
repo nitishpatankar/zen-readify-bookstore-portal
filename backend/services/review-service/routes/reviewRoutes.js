@@ -1,5 +1,4 @@
 const router = require('express').Router();
-const axios = require('axios');
 const Review = require('../models/Review');
 const validate = require('../../../shared/middleware/validate');
 const { reviewValidationSchema } = require('../validation/reviewSchema');
@@ -29,11 +28,17 @@ router.post(
         reviews.length;
 
       // Call Book Service to update rating
-      await axios.put(
+      await fetch(
         `http://localhost:${process.env.PORT_BOOK}/api/books/${bookId}/rating`,
         {
-          averageRating: Number(avg.toFixed(1)),
-          totalReviews: reviews.length
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            averageRating: Number(avg.toFixed(1)),
+            totalReviews: reviews.length
+          })
         }
       );
 

@@ -25,6 +25,22 @@ app.use(
   })
 );
 
+app.use(
+  createProxyMiddleware({
+    target: `http://localhost:${process.env.PORT_SEARCH}`,
+    changeOrigin: true,
+    pathFilter: ['/api/search'],
+  })
+);
+
+app.use(
+  createProxyMiddleware({
+    target: `http://localhost:${process.env.PORT_REVIEW}`,
+    changeOrigin: true,
+    pathFilter: ['/api/reviews'],
+  })
+);
+
 app.listen(process.env.PORT_GATEWAY, () => {
   console.log(`Gateway running on ${process.env.PORT_GATEWAY}`);
 });

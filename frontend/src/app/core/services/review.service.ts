@@ -12,6 +12,7 @@ export class ReviewService {
   }
 
   addReview(bookId: string, data: any) {
+    console.log('add review :: ', bookId, data);
     return this.http.post(`${this.base}/${bookId}`, data);
   }
 }
