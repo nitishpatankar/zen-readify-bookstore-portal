@@ -14,12 +14,12 @@ import { BookCard } from '../../shared/book-card/book-card';
 })
 export class Home implements OnInit {
 
-  private fb = inject(FormBuilder);
-  private bookService = inject(BookService);
+  private _fb = inject(FormBuilder);
+  private _bookService = inject(BookService);
 
   books = signal<any[]>([]);
 
-  searchForm = this.fb.group({
+  searchForm = this._fb.group({
     query: [''],
     genre: ['']
   });
@@ -33,11 +33,8 @@ export class Home implements OnInit {
   ];
 
   ngOnInit() {
-
-    // Load all books initially
     this.loadAllBooks();
 
-    // 🔥 Debounced search
     this.searchForm.valueChanges
       .pipe(
         debounceTime(400),
@@ -48,12 +45,21 @@ export class Home implements OnInit {
       });
   }
 
+  /**
+   * Loads all books
+   */
   loadAllBooks() {
-    this.bookService.getAll().subscribe(data => {
+    this._bookService.getAll().subscribe(data => {
       this.books.set(data);
     });
   }
 
+  /**
+   * Searches for books based on the provided query and genre.
+   * @param query 
+   * @param genre 
+   * @returns books matching the search criteria. If no criteria is provided, it loads all books.
+   */
   performSearch(query: string, genre: string) {
 
     // If no filter → load all
@@ -62,7 +68,7 @@ export class Home implements OnInit {
       return;
     }
 
-    this.bookService.searchBooks(query, genre)
+    this._bookService.searchBooks(query, genre)
       .subscribe(data => {
         this.books.set(data);
       });

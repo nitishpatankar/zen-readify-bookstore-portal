@@ -1,5 +1,8 @@
 @if (book()) {
     <div class="container mt-4">
+        <button class="btn btn-link mb-3" (click)="goBack()">
+            ← Back to Home
+        </button>
         <div class="row">
             <div class="col-md-4">
                 <img [src]="book().imageUrl" class="img-fluid rounded shadow" />

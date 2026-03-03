@@ -11,9 +11,9 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './book-details.scss',
 })
 export class BookDetails {
-  private route = inject(ActivatedRoute);
-  private bookService = inject(BookService);
-  private reviewService = inject(ReviewService);
+  private _route = inject(ActivatedRoute);
+  private _bookService = inject(BookService);
+  private _reviewService = inject(ReviewService);
 
   book = signal<any>(null);
   reviews = signal<any[]>([]);
@@ -25,21 +25,37 @@ export class BookDetails {
   };
 
   ngOnInit() {
-    const id = this.route.snapshot.params['id'];
+    const id = this._route.snapshot.params['id'];
 
-    this.bookService.getById(id).subscribe(res => {
+    this._bookService.getById(id).subscribe(res => {
       this.book.set(res);
     });
 
-    this.reviewService.getByBook(id).subscribe(res => {
+    this._reviewService.getByBook(id).subscribe(res => {
       this.reviews.set(res);
+      this.newReview = {
+        reviewerName: '',
+        rating: 5,
+        comment: ''
+      };
     });
   }
 
+  /**
+   * Submits a new review for the current book. 
+   * After successfully adding the review, it refreshes the reviews list by calling ngOnInit() again.
+   */
   submitReview() {
-    const id = this.route.snapshot.params['id'];
+    const id = this._route.snapshot.params['id'];
 
-    this.reviewService.addReview(id, this.newReview)
+    this._reviewService.addReview(id, this.newReview)
       .subscribe(() => this.ngOnInit());
+  }
+
+  /**
+   * Navigates back to the book list or previous view after viewing book details.
+   */
+  goBack() {
+    window.history.back();
   }
 }
