@@ -30,6 +30,11 @@ app.use('/api/books', require('./routes/bookRoutes'));
 
 app.use(errorHandler);
 
+app.get('/', (req, res) => {
+  const user = JSON.parse(req.headers['x-user']);
+  res.json({ message: `Welcome ${user.email}` });
+});
+
 app.listen(process.env.PORT_BOOK, () =>
   console.log(`Book Service running on ${process.env.PORT_BOOK}`)
 );

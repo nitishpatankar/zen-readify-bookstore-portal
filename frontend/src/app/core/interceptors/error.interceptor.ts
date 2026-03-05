@@ -1,18 +1,11 @@
-import { HttpInterceptorFn } from '@angular/common/http';
-import { inject } from '@angular/core';
-import { catchError, throwError } from 'rxjs';
-import { ToastService } from '../services/toast.service';
+import { HttpErrorResponse, HttpInterceptorFn } from "@angular/common/http";
+import { catchError, throwError } from "rxjs";
 
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
-
-  const _toast = inject(ToastService);
-
   return next(req).pipe(
-    catchError(err => {
-
-      _toast.show('error', err.error?.message || 'Something went wrong');
-
-      return throwError(() => err);
+    catchError((error: HttpErrorResponse) => {
+      alert(error.error?.message || 'Something went wrong');
+      return throwError(() => error);
     })
   );
 };
